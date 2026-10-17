@@ -1,0 +1,394 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation and Creation of Forms in Django</title>
+    <link rel="stylesheet" href="{% static 'forms_lab/style.css' %}">
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<header class="college-header">
+    <div class="college-brand">
+        <!-- Add your Somaiya logo at this location -->
+        <img
+    src="{% static 'forms_lab/somaiya-logo.png' %}"
+    alt="Somaiya Logo"
+    class="college-logo"
+    width="55"
+    height="55"
+    style="width:55px !important;height:55px !important;max-width:55px !important;max-height:55px !important;object-fit:contain;display:block;flex-shrink:0;"
+>
+        <div>
+            <h2>SOMAIYA VIDYAVIHAR UNIVERSITY</h2>
+            <p>K J Somaiya School of Engineering</p>
+            <small>Department of Computer Engineering</small>
+        </div>
+    </div>
+    <div class="lab-brand">
+        <span class="lab-icon">VL</span>
+        <div>
+            <h2>Virtual Labs</h2>
+            <p>Full Stack Development</p>
+        </div>
+    </div>
+</header>
+
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="logo">Virtual Lab</div>
+
+        <nav>
+            <p class="nav-heading">UNDERSTAND</p>
+            <a href="#aim">Aim</a>
+            <a href="#introduction">Introduction</a>
+            <a href="#theory">Theory</a>
+            <a href="#case-study">Case Study</a>
+
+            <p class="nav-heading">PERFORM</p>
+            <a href="#pretest">Pretest</a>
+            <a href="#procedure">Procedure</a>
+            <a href="{% url 'simulation' %}" class="simulation-link">Simulation</a>
+            <a href="#exercises">Exercises</a>
+            <a href="#posttest">Posttest</a>
+            <a href="#observations">Observations</a>
+
+            <p class="nav-heading">MORE</p>
+            <a href="#references">References</a>
+            <a href="#contributors">Contributors</a>
+            <a href="#feedback">Feedback</a>
+        </nav>
+
+        <div class="progress-box">
+            <p>EXERCISES COMPLETED</p>
+            <strong id="progress-count">0/5</strong>
+            <div class="progress-track">
+                <div id="progress-fill"></div>
+            </div>
+            <small>Complete the exercises to track your progress.</small>
+        </div>
+    </aside>
+
+    <main class="content">
+
+        <section class="hero">
+            <p class="breadcrumb">Computer Engineering &rsaquo; Full Stack Development &rsaquo; Experiments</p>
+            <h1>Validation and Creation of Forms in Django</h1>
+            <p class="hero-subtitle">Virtual Laboratory</p>
+            <a href="{% url 'simulation' %}" class="start-button">Start Experiment</a>
+        </section>
+
+        <section id="aim" class="content-section">
+            <h2>Aim</h2>
+            <p>To understand the creation and validation of forms in Django using Django Forms.</p>
+        </section>
+
+        <section id="introduction" class="content-section">
+            <h2>Introduction</h2>
+            <p>Forms are an important part of web applications because they allow users to enter and submit information.</p>
+            <p>Django provides a built-in forms framework to create form fields, validate submitted data, display errors and access cleaned data.</p>
+            <p>In this experiment, you will explore how Django forms are created and how validation works when a user submits a form.</p>
+        </section>
+
+        <section id="theory" class="content-section">
+            <h2>Theory</h2>
+            <p>Django provides a form handling framework that allows developers to create forms and validate user input.</p>
+            <p>Django Forms support different field types, such as text, email, integer, choice and date fields.</p>
+            <p>When a form is submitted, Django validates the entered data using the rules defined in the form. The <strong>is_valid()</strong> method checks whether the submitted data is valid.</p>
+            <p>If the data is invalid, Django generates validation errors. If it is valid, processed data becomes available through <strong>cleaned_data</strong>.</p>
+
+            <div class="info-card">
+                <h3>Important Django concepts</h3>
+                <ul>
+                    <li><strong>forms.py:</strong> Defines form fields and validation rules.</li>
+                    <li><strong>POST:</strong> Sends submitted form data to the server.</li>
+                    <li><strong>is_valid():</strong> Checks the submitted data.</li>
+                    <li><strong>errors:</strong> Contains validation errors.</li>
+                    <li><strong>cleaned_data:</strong> Contains validated values.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="case-study" class="content-section">
+            <h2>Case Study</h2>
+            <h3>Student Registration System</h3>
+            <p>A college registration portal needs to collect student information such as name, email, age, contact details and course preferences.</p>
+            <p>Without validation, users might submit invalid email addresses, incomplete details or values outside the permitted range.</p>
+            <p>Django Forms can validate these entries on the server and return meaningful error messages before the submitted data is processed.</p>
+            <p><strong>Application:</strong> This experiment simulates student registration and demonstrates how Django handles valid and invalid input.</p>
+        </section>
+
+        <section id="pretest" class="content-section">
+            <h2>Pretest</h2>
+            <p>Answer these questions before starting the experiment.</p>
+
+            <form class="quiz-form" data-quiz="pretest">
+                <div class="question">
+                    <p>1. Which Django module is used to create forms?</p>
+                    <label><input type="radio" name="pre1" value="a"> django.urls</label>
+                    <label><input type="radio" name="pre1" value="b"> django.forms</label>
+                    <label><input type="radio" name="pre1" value="c"> django.admin</label>
+                </div>
+
+                <div class="question">
+                    <p>2. Which method checks whether submitted form data is valid?</p>
+                    <label><input type="radio" name="pre2" value="a"> save()</label>
+                    <label><input type="radio" name="pre2" value="b"> render()</label>
+                    <label><input type="radio" name="pre2" value="c"> is_valid()</label>
+                </div>
+
+                <div class="question">
+                    <p>3. Where can validated form values be accessed?</p>
+                    <label><input type="radio" name="pre3" value="a"> cleaned_data</label>
+                    <label><input type="radio" name="pre3" value="b"> urls</label>
+                    <label><input type="radio" name="pre3" value="c"> templates</label>
+                </div>
+
+                <button type="submit">Check Pretest</button>
+                <p class="quiz-result" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section id="procedure" class="content-section">
+            <h2>Procedure</h2>
+            <ol>
+                <li>Create a Django project.</li>
+                <li>Create a Django application.</li>
+                <li>Define form fields in <strong>forms.py</strong>.</li>
+                <li>Specify validation rules for the fields.</li>
+                <li>Display the form using an HTML template.</li>
+                <li>Submit the form using a POST request.</li>
+                <li>Validate submitted data using <strong>is_valid()</strong>.</li>
+                <li>Display validation errors or cleaned data.</li>
+                <li>Test the form using both valid and invalid inputs.</li>
+            </ol>
+        </section>
+
+        <section id="simulation" class="content-section simulation-section">
+            <h2>Simulation</h2>
+            <p>Interact with the Django Forms simulation to enter student details, test validation rules and observe the results.</p>
+            <div class="info-card">
+                <h3>What you will learn</h3>
+                <ul>
+                    <li>How Django form fields are displayed.</li>
+                    <li>How invalid entries generate errors.</li>
+                    <li>How valid entries are processed.</li>
+                    <li>How cleaned data is displayed after validation.</li>
+                </ul>
+            </div>
+            <a href="{% url 'simulation' %}" class="start-button">Open Interactive Simulation</a>
+        </section>
+
+        <section id="exercises" class="content-section">
+            <h2>Exercises</h2>
+            <p>Complete each task and mark it when finished. Your progress counter will update.</p>
+
+            <div class="exercise-list">
+                <label class="exercise-item">
+                    <input type="checkbox" class="exercise-check">
+                    Create a Django form with multiple field types.
+                </label>
+                <label class="exercise-item">
+                    <input type="checkbox" class="exercise-check">
+                    Submit the form with all fields empty.
+                </label>
+                <label class="exercise-item">
+                    <input type="checkbox" class="exercise-check">
+                    Enter an invalid email address and inspect the error.
+                </label>
+                <label class="exercise-item">
+                    <input type="checkbox" class="exercise-check">
+                    Submit valid information and inspect cleaned_data.
+                </label>
+                <label class="exercise-item">
+                    <input type="checkbox" class="exercise-check">
+                    Identify the role of is_valid() in the view.
+                </label>
+            </div>
+        </section>
+
+        <section id="posttest" class="content-section">
+            <h2>Posttest</h2>
+            <p>Test your understanding after completing the simulation.</p>
+
+            <form class="quiz-form" data-quiz="posttest">
+                <div class="question">
+                    <p>1. What happens when is_valid() returns False?</p>
+                    <label><input type="radio" name="post1" value="a"> The form is automatically saved.</label>
+                    <label><input type="radio" name="post1" value="b"> Validation errors can be displayed.</label>
+                    <label><input type="radio" name="post1" value="c"> The server shuts down.</label>
+                </div>
+
+                <div class="question">
+                    <p>2. Which attribute stores validated form values?</p>
+                    <label><input type="radio" name="post2" value="a"> cleaned_data</label>
+                    <label><input type="radio" name="post2" value="b"> request.path</label>
+                    <label><input type="radio" name="post2" value="c"> urlpatterns</label>
+                </div>
+
+                <div class="question">
+                    <p>3. Which request method is commonly used to submit form data?</p>
+                    <label><input type="radio" name="post3" value="a"> GET only</label>
+                    <label><input type="radio" name="post3" value="b"> DELETE</label>
+                    <label><input type="radio" name="post3" value="c"> POST</label>
+                </div>
+
+                <button type="submit">Check Posttest</button>
+                <p class="quiz-result" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section id="observations" class="content-section">
+            <h2>Observations</h2>
+            <ul>
+                <li>Django displays validation errors when submitted data fails the defined rules.</li>
+                <li>The is_valid() method determines whether the submitted data passes validation.</li>
+                <li>Valid form values can be accessed through cleaned_data.</li>
+                <li>Server-side validation helps prevent invalid data from being processed.</li>
+            </ul>
+        </section>
+
+        <section id="references" class="content-section">
+            <h2>References</h2>
+            <ol>
+                <li><a href="https://docs.djangoproject.com/en/stable/topics/forms/" target="_blank" rel="noopener">Django Documentation: Working with Forms</a></li>
+                <li><a href="https://docs.djangoproject.com/en/stable/ref/forms/validation/" target="_blank" rel="noopener">Django Documentation: Form and Field Validation</a></li>
+                <li><a href="https://docs.djangoproject.com/en/stable/topics/http/forms/" target="_blank" rel="noopener">Django Documentation: Forms in HTTP</a></li>
+            </ol>
+        </section>
+
+        <section id="contributors" class="content-section">
+            <h2>Contributors</h2>
+            <p>Department of Computer Engineering</p>
+
+            <div class="contributors-grid">
+                <div class="contributor-card">
+                    <h3>Akshita Sabat</h3>
+                    <p>Developer: Django forms and validation</p>
+                    <small>Computer Engineering</small>
+                </div>
+                <div class="contributor-card">
+                    <h3>SUdarshan Aachar</h3>
+                    <p>Developer: Simulation and templates</p>
+                    <small>Computer Engineering</small>
+                </div>
+                <div class="contributor-card">
+                    <h3>Adyant</h3>
+                    <p>Developer: Content and assessments</p>
+                    <small>Computer Engineering</small>
+                </div>
+                <div class="contributor-card">
+                    <h3>Aditya Tiwari</h3>
+                    <p>Developer: Testing </p>
+                    <small>Computer Engineering</small>
+                </div>
+                <div class="contributor-card">
+                    <h3>Shweta Chachra</h3>
+                    <p>Faculty Mentor</p>
+                    <small>Department of Computer Engineering</small>
+                </div>
+            </div>
+        
+
+        <section id="feedback" class="content-section">
+            <h2>Feedback</h2>
+            <p>Share your feedback about this virtual lab.</p>
+
+            <form id="feedback-form">
+                <label for="rating">How useful was this experiment?</label>
+                <select id="rating" required>
+                    <option value="">Select a rating</option>
+                    <option value="Excellent">Excellent</option>
+                    <option value="Good">Good</option>
+                    <option value="Average">Average</option>
+                    <option value="Needs improvement">Needs improvement</option>
+                </select>
+
+                <label for="feedback-message">Comments or suggestions</label>
+                <textarea id="feedback-message" rows="4" placeholder="Enter your feedback"></textarea>
+
+                <button type="submit">Submit Feedback</button>
+                <p id="feedback-result" aria-live="polite"></p>
+            </form>
+            <p class="placeholder-note">Feedback currently displays a local confirmation only; it is not saved to a database.</p>
+        </section>
+
+        <div class="page-navigation">
+            <a href="#aim">↑ Back to Aim</a>
+            <a href="#feedback">Next: Feedback →</a>
+        </div>
+
+        <footer>
+            <p>Virtual Lab | Validation and Creation of Forms in Django</p>
+            <p>Full Stack Development</p>
+        </footer>
+
+    </main>
+</div>
+
+<script>
+    const exerciseChecks = document.querySelectorAll(".exercise-check");
+    const progressCount = document.getElementById("progress-count");
+    const progressFill = document.getElementById("progress-fill");
+
+    function updateProgress() {
+        const completed = [...exerciseChecks].filter(item => item.checked).length;
+        progressCount.textContent = completed + "/" + exerciseChecks.length;
+        progressFill.style.width = (completed / exerciseChecks.length * 100) + "%";
+    }
+
+    exerciseChecks.forEach(item => {
+        item.addEventListener("change", updateProgress);
+    });
+
+    const answers = {
+        pretest: { pre1: "b", pre2: "c", pre3: "a" },
+        posttest: { post1: "b", post2: "a", post3: "c" }
+    };
+
+    document.querySelectorAll(".quiz-form").forEach(form => {
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const quizName = form.dataset.quiz;
+            const correctAnswers = answers[quizName];
+            let score = 0;
+            let unanswered = 0;
+
+            Object.entries(correctAnswers).forEach(([question, answer]) => {
+                const selected = form.querySelector(
+                    'input[name="' + question + '"]:checked'
+                );
+
+                if (!selected) {
+                    unanswered++;
+                } else if (selected.value === answer) {
+                    score++;
+                }
+            });
+
+            const result = form.querySelector(".quiz-result");
+
+            if (unanswered > 0) {
+                result.textContent = "Please answer all questions before checking your score.";
+            } else {
+                result.textContent = "Your score: " + score + "/" +
+                    Object.keys(correctAnswers).length + ".";
+            }
+        });
+    });
+
+    document.getElementById("feedback-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        document.getElementById("feedback-result").textContent =
+            "Thank you for your feedback!";
+        this.reset();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,367 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Django Forms Validation Simulation</title>
+
+    <link rel="stylesheet" href="{% static 'forms_lab/style.css' %}">
+
+</head>
+
+<body>
+    <a href="{% url 'home' %}">
+        <button type="button">Home</button>
+    </a>
+
+
+    <h1>Django Forms Validation Simulation</h1>
+    <hr>
+
+    <h2>Student Registration Form</h2>
+
+    <p>
+        Enter the following details and click Validate Form.
+        Django will validate the submitted data.
+    </p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Validate Form
+        </button>
+
+    </form>
+
+
+    {% if form.errors %}
+
+        <hr>
+
+        <h2>Validation Result</h2>
+
+        <h3>Form is Invalid</h3>
+
+        <p>
+            Django found the following errors:
+        </p>
+
+        {{ form.errors }}
+
+    {% endif %}
+
+
+    {% if cleaned_data %}
+
+        <hr>
+
+        <h2>Validation Result</h2>
+
+        <h3>Form is Valid</h3>
+
+        <p>
+            All fields passed Django's validation.
+        </p>
+
+        <h3>Cleaned Data</h3>
+
+        {% for key, value in cleaned_data.items %}
+
+            <p>
+                <strong>{{ key }}</strong> :
+                {{ value }}
+            </p>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <hr>
+
+
+    <h2>How Django Validates This Form</h2>
+
+    <button type="button" onclick="showStep(1)">
+        Step 1
+    </button>
+
+    <button type="button" onclick="showStep(2)">
+        Step 2
+    </button>
+
+    <button type="button" onclick="showStep(3)">
+        Step 3
+    </button>
+
+    <button type="button" onclick="showStep(4)">
+        Step 4
+    </button>
+
+    <button type="button" onclick="showStep(5)">
+        Step 5
+    </button>
+
+
+    <div id="step1" style="display:none;">
+
+        <h3>Step 1: User Enters Data</h3>
+
+        <p>
+            The user enters information into the Django form.
+        </p>
+
+    </div>
+
+
+    <div id="step2" style="display:none;">
+
+        <h3>Step 2: Form is Submitted</h3>
+
+        <p>
+            The form sends the entered data to the Django server
+            using a POST request.
+        </p>
+
+        <pre>
+POST request
+        </pre>
+
+    </div>
+
+
+    <div id="step3" style="display:none;">
+
+        <h3>Step 3: Django Creates the Form</h3>
+
+        <p>
+            Django receives the submitted data and creates a
+            StudentForm object.
+        </p>
+
+        <pre>
+form = StudentForm(request.POST)
+        </pre>
+
+    </div>
+
+
+    <div id="step4" style="display:none;">
+
+        <h3>Step 4: Django Validates the Form</h3>
+
+        <p>
+            Django checks each field according to the validation
+            rules defined in forms.py.
+        </p>
+
+        <pre>
+form.is_valid()
+        </pre>
+
+        <p>
+            Django checks things such as required fields,
+            email format, minimum values, maximum values,
+            minimum length and maximum length.
+        </p>
+
+    </div>
+
+
+    <div id="step5" style="display:none;">
+
+        <h3>Step 5: Validation Result</h3>
+
+        <p>
+            If the data is invalid, Django generates
+            validation errors.
+        </p>
+
+        <p>
+            If the data is valid, Django stores the validated
+            information in cleaned_data.
+        </p>
+
+        <pre>
+form.errors
+
+form.cleaned_data
+        </pre>
+
+    </div>
+
+
+    <hr>
+
+
+    <h2>Django Code</h2>
+
+    <button type="button" onclick="showCode()">
+        Show Django Form Code
+    </button>
+
+
+    <div id="djangoCode" style="display:none;">
+
+        <pre>
+from django import forms
+
+
+class StudentForm(forms.Form):
+
+    name = forms.CharField(
+        label="Full Name",
+        max_length=50,
+        min_length=3,
+        required=True
+    )
+
+    email = forms.EmailField(
+        label="Email Address",
+        required=True
+    )
+
+    age = forms.IntegerField(
+        label="Age",
+        min_value=18,
+        max_value=60,
+        required=True
+    )
+
+    phone = forms.CharField(
+        label="Phone Number",
+        max_length=10,
+        min_length=10,
+        required=True
+    )
+
+    gender = forms.ChoiceField(
+        label="Gender",
+        choices=[
+            ("Male", "Male"),
+            ("Female", "Female"),
+            ("Other", "Other")
+        ],
+        required=True
+    )
+
+    department = forms.ChoiceField(
+        label="Department",
+        choices=[
+            ("Computer", "Computer Engineering"),
+            ("IT", "Information Technology"),
+            ("EXTC", "Electronics and Telecommunication"),
+            ("AI", "Artificial Intelligence")
+        ],
+        required=True
+    )
+
+    year = forms.ChoiceField(
+        label="Year",
+        choices=[
+            ("1", "First Year"),
+            ("2", "Second Year"),
+            ("3", "Third Year"),
+            ("4", "Fourth Year")
+        ],
+        required=True
+    )
+
+    cgpa = forms.FloatField(
+        label="CGPA",
+        min_value=0,
+        max_value=10,
+        required=True
+    )
+
+    website = forms.URLField(
+        label="Portfolio Website",
+        required=False
+    )
+
+    date_of_birth = forms.DateField(
+        label="Date of Birth",
+        required=True
+    )
+
+    address = forms.CharField(
+        label="Address",
+        max_length=200,
+        required=True
+    )
+
+    password = forms.CharField(
+        label="Password",
+        min_length=8,
+        max_length=20,
+        required=True
+    )
+
+    newsletter = forms.BooleanField(
+        label="Subscribe to Newsletter",
+        required=False
+    )
+
+    skills = forms.MultipleChoiceField(
+        label="Programming Skills",
+        choices=[
+            ("Python", "Python"),
+            ("Java", "Java"),
+            ("C", "C"),
+            ("JavaScript", "JavaScript"),
+            ("SQL", "SQL")
+        ],
+        required=False
+    )
+
+    comments = forms.CharField(
+        label="Additional Comments",
+        max_length=300,
+        required=False
+    )
+        </pre>
+
+    </div>
+
+
+    <script>
+
+        function showStep(step) {
+
+            document.getElementById("step1").style.display = "none";
+            document.getElementById("step2").style.display = "none";
+            document.getElementById("step3").style.display = "none";
+            document.getElementById("step4").style.display = "none";
+            document.getElementById("step5").style.display = "none";
+
+            document.getElementById("step" + step).style.display = "block";
+
+        }
+
+
+        function showCode() {
+
+            let code = document.getElementById("djangoCode");
+
+            if (code.style.display === "none") {
+
+                code.style.display = "block";
+
+            } else {
+
+                code.style.display = "none";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
